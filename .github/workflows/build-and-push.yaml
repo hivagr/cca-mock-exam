@@ -32,8 +32,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v6
         with:
-          push: false
-          load: true
+          push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }},${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
@@ -42,13 +41,6 @@ jobs:
         id: scan
         with:
           image: "${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}"
-
-      - name: Push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }},${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       - name: upload Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@v3
