@@ -1,0 +1,561 @@
+[
+  {
+    "question": "Which component of Cilium is responsible for monitoring and enforcing network policies on each Kubernetes node?",
+    "choices": [
+      "Cilium Operator",
+      "Cilium Hubble",
+      "Cilium Agent",
+      "Cilium CLI"
+    ],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "The Cilium Agent runs on each node as a DaemonSet and is responsible for interacting with the Linux kernel to program eBPF, monitor, and enforce network policies. The Operator handles cluster-wide tasks, Hubble provides observability, and the CLI is a management tool."
+  },
+  {
+    "question": "In Cilium, what does the term \"identity\" refer to?",
+    "choices": [
+      "The unique IP address assigned to a pod",
+      "The security context of a container",
+      "A numeric identifier derived from pod labels that represents workload security identity",
+      "The digital certificate used for encryption"
+    ],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "In Cilium, \"identity\" refers to a numeric identifier derived from a pod's set of labels. This identity is used for policy enforcement, allowing Cilium to implement security policies based on workload characteristics rather than IP addresses, which can change."
+  },
+  {
+    "question": "Which Cilium datapath mode does NOT use overlay encapsulation for pod-to-pod traffic across nodes?",
+    "choices": ["VXLAN", "Geneve", "Native routing", "IPsec"],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "Native routing (or direct routing) does not use encapsulation for pod-to-pod traffic. Instead, it routes traffic directly between nodes using the underlying network infrastructure. VXLAN and Geneve are overlay encapsulation protocols, and IPsec provides encryption but is typically used with encapsulation."
+  },
+  {
+    "question": "Which of the following is NOT a supported IPAM mode in Cilium?",
+    "choices": [
+      "Cluster Pool",
+      "Kubernetes Host Scope",
+      "CRD-based",
+      "Kubernetes PodCIDR",
+      "Host-Local"
+    ],
+    "correct": 4,
+    "section": "Architecture",
+    "explanation": "Cilium supports several IPAM modes including Cluster Pool (default), Kubernetes (using PodCIDR from the node spec), and CRD-based IPAM, but \"Host-Local\" is not a supported IPAM mode in Cilium."
+  },
+  {
+    "question": "What does Hubble provide in a Cilium deployment?",
+    "choices": [
+      "Encryption for pod-to-pod traffic",
+      "Service load balancing",
+      "Network observability and monitoring",
+      "Identity-based authentication"
+    ],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "Hubble is Cilium's observability layer that provides visibility into network traffic and security events. It allows users to observe and understand network flows, troubleshoot connectivity issues, and monitor network policy enforcement."
+  },
+  {
+    "question": "Which Cilium component is responsible for cluster-wide coordination tasks such as IPAM and CRD management?",
+    "choices": [
+      "Cilium Agent",
+      "Cilium CLI",
+      "Cilium Hubble",
+      "Cilium Operator"
+    ],
+    "correct": 3,
+    "section": "Architecture",
+    "explanation": "The Cilium Operator handles cluster-wide tasks such as managing IPAM (IP address management), synchronizing CRDs (Custom Resource Definitions), and coordinating activities that require a global view of the cluster."
+  },
+  {
+    "question": "When using the Cilium eBPF native datapath, at which point in the kernel are packets processed?",
+    "choices": [
+      "Only after they reach user space",
+      "Only before they enter the network stack",
+      "Directly in the kernel at various hook points",
+      "In a separate network namespace"
+    ],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "Cilium's eBPF native datapath processes packets directly in the Linux kernel at various hook points, such as XDP (eXpress Data Path), TC (Traffic Control), and socket operations, without requiring transitions to user space."
+  },
+  {
+    "question": "Which statement about Cilium's identity-based security is true?",
+    "choices": [
+      "It assigns identities based only on the pod's IP address",
+      "It requires manual identity assignment for each pod",
+      "It allows policies to remain valid even when pod IP addresses change",
+      "It can only identify pods within the same namespace"
+    ],
+    "correct": 2,
+    "section": "Architecture",
+    "explanation": "Cilium's identity-based security model assigns identities based on pod labels rather than IP addresses. This means security policies remain valid even when pod IP addresses change due to restarts or rescheduling, providing more reliable and consistent security."
+  },
+  {
+    "question": "Which of the following is true about CiliumNetworkPolicy compared to Kubernetes NetworkPolicy?",
+    "choices": [
+      "CiliumNetworkPolicy only supports Layer 3/4 filtering",
+      "CiliumNetworkPolicy can enforce restrictions based on DNS/FQDN",
+      "CiliumNetworkPolicy requires a sidecar proxy for enforcement",
+      "CiliumNetworkPolicy cannot be used alongside Kubernetes NetworkPolicy"
+    ],
+    "correct": 1,
+    "section": "Cilium Network Policy",
+    "explanation": "Unlike standard Kubernetes NetworkPolicy, CiliumNetworkPolicy can enforce restrictions based on DNS/FQDN names using the toFQDNs field, allowing egress filtering based on domain names rather than just IP addresses."
+  },
+  {
+    "question": "In a default-deny policy enforcement mode, what happens to traffic when no Cilium Network Policy selects a pod?",
+    "choices": [
+      "All traffic to and from the pod is allowed",
+      "All traffic to and from the pod is denied",
+      "Only traffic within the same namespace is allowed",
+      "Only traffic from system pods is allowed"
+    ],
+    "correct": 1,
+    "section": "Cilium Network Policy",
+    "explanation": "In default-deny mode, if no network policy selects a pod, all traffic to and from that pod is denied. This implements a \"zero-trust\" approach where connectivity must be explicitly allowed by a policy."
+  },
+  {
+    "question": "Which policy enforcement mode in Cilium enforces policies only on endpoints that match at least one network policy?",
+    "choices": ["default", "always", "never", "selective"],
+    "correct": 2,
+    "section": "Cilium Network Policy",
+    "explanation": "The \"never\" enforcement mode only applies policies to endpoints that match at least one network policy. This is different from \"default\" (which denies traffic to pods without matching policies) and \"always\" (which enforces policies on all endpoints)."
+  },
+  {
+    "question": "Which of the following is a valid Layer 7 protocol rule that can be enforced by Cilium?",
+    "choices": [
+      "Restricting access based on HTTP methods and paths",
+      "Filtering traffic based on the pod's startup time",
+      "Allowing traffic only when the node CPU usage is below a threshold",
+      "Limiting bandwidth for specific pods"
+    ],
+    "correct": 0,
+    "section": "Cilium Network Policy",
+    "explanation": "Cilium can enforce Layer 7 protocol rules such as restricting access based on HTTP methods and paths, allowing fine-grained API-level access control."
+  },
+  {
+    "question": "Which annotation can be used to disable policy enforcement on a specific namespace?",
+    "choices": [
+      "io.cilium.k8s.policy.enforce=false",
+      "policies.cilium.io/disabled=true",
+      "io.cilium.k8s.policy.enforcement=false",
+      "cilium.io/disable-policy=true"
+    ],
+    "correct": 2,
+    "section": "Cilium Network Policy",
+    "explanation": "The annotation \"io.cilium.k8s.policy.enforcement=false\" can be used to disable policy enforcement for a specific namespace, regardless of the global enforcement mode."
+  },
+  {
+    "question": "Which Cilium policy feature allows restricting egress traffic to specific domain names rather than IP addresses?",
+    "choices": ["toCIDR", "toFQDNs", "toEndpoints", "toDNS"],
+    "correct": 1,
+    "section": "Cilium Network Policy",
+    "explanation": "The toFQDNs feature in Cilium policies allows restricting egress traffic to specific domain names rather than IP addresses, which is particularly useful for accessing external services with dynamic IPs."
+  },
+  {
+    "question": "Which feature does Cilium Service Mesh offer that traditional sidecar-based service meshes do not?",
+    "choices": [
+      "mTLS encryption between services",
+      "Traffic routing based on HTTP headers",
+      "Sidecarless architecture using eBPF",
+      "Circuit breaking for backend services"
+    ],
+    "correct": 2,
+    "section": "Service Mesh",
+    "explanation": "Cilium Service Mesh uniquely offers a sidecarless architecture using eBPF, which implements service mesh functions directly in the kernel without requiring proxy sidecars. Traditional service meshes like Istio or Linkerd require sidecar proxies in each pod."
+  },
+  {
+    "question": "When using Cilium as an Ingress Controller, which annotation makes a service accessible globally across clusters?",
+    "choices": [
+      "kubernetes.io/ingress.class: cilium",
+      "io.cilium/global-service: \"true\"",
+      "cilium.io/ingress-global: \"true\"",
+      "service.cilium.io/global: \"true\""
+    ],
+    "correct": 3,
+    "section": "Service Mesh",
+    "explanation": "The annotation \"service.cilium.io/global: \"true\"\" makes a service accessible globally across clusters in a Cilium Cluster Mesh."
+  },
+  {
+    "question": "What is the primary advantage of Cilium's sidecarless service mesh architecture compared to traditional service meshes?",
+    "choices": [
+      "It offers more protocol-awareness for L7 filtering",
+      "It provides better integration with cloud provider load balancers",
+      "It significantly reduces resource overhead and performance impact",
+      "It simplifies certificate management for mTLS"
+    ],
+    "correct": 2,
+    "section": "Service Mesh",
+    "explanation": "The primary advantage of Cilium's sidecarless service mesh architecture is the significant reduction in resource overhead and performance impact. Without sidecars, there's no need for the additional containers, memory, and CPU overhead, and traffic doesn't need to be redirected through proxies."
+  },
+  {
+    "question": "Which API does Cilium implement to provide advanced traffic routing capabilities beyond Kubernetes Ingress?",
+    "choices": [
+      "Istio Virtual Service API",
+      "Gateway API",
+      "NGINX Controller API",
+      "Traefik IngressRoute API"
+    ],
+    "correct": 1,
+    "section": "Service Mesh",
+    "explanation": "Cilium implements the Gateway API, which is a new standard API for Kubernetes that provides more advanced traffic routing capabilities beyond the traditional Ingress resource."
+  },
+  {
+    "question": "Which of the following is NOT a traffic management feature provided by Cilium Service Mesh?",
+    "choices": [
+      "Canary deployments with percentage-based traffic splitting",
+      "Traffic routing based on HTTP headers",
+      "Automatic sidecar proxy injection",
+      "Circuit breaking and outlier detection"
+    ],
+    "correct": 2,
+    "section": "Service Mesh",
+    "explanation": "Cilium Service Mesh does NOT provide automatic sidecar proxy injection because it uses a sidecarless architecture. It does provide the other features like canary deployments, traffic routing based on HTTP headers, and circuit breaking."
+  },
+  {
+    "question": "How does Cilium implement mutual TLS (mTLS) between services?",
+    "choices": [
+      "Using IPsec encryption in the kernel",
+      "Through sidecar proxies that handle TLS termination",
+      "Using WireGuard for transparent encryption",
+      "Through eBPF programs that redirect traffic to TLS libraries"
+    ],
+    "correct": 0,
+    "section": "Service Mesh",
+    "explanation": "Cilium primarily implements mutual TLS (mTLS) between services using IPsec encryption in the kernel, leveraging eBPF to provide efficient, transparent encryption without requiring sidecar proxies."
+  },
+  {
+    "question": "Which of the following Gateway API resources would you use to define HTTP routing rules for a Gateway?",
+    "choices": ["HTTPRoute", "RouteRule", "HTTPProxy", "GatewayHTTPRoute"],
+    "correct": 0,
+    "section": "Service Mesh",
+    "explanation": "In the Gateway API, HTTPRoute is the resource used to define HTTP routing rules for a Gateway. It specifies how HTTP traffic should be routed to backend services based on paths, headers, and other criteria."
+  },
+  {
+    "question": "In Cilium, what encryption method provides the highest performance for pod-to-pod traffic?",
+    "choices": ["mTLS", "WireGuard", "IPsec", "TLS tunnels"],
+    "correct": 1,
+    "section": "Service Mesh",
+    "explanation": "WireGuard typically provides the highest performance for pod-to-pod traffic encryption in Cilium due to its efficient implementation and integration with the Linux kernel."
+  },
+  {
+    "question": "What command would you use to view real-time network flows between pods with Hubble?",
+    "choices": [
+      "kubectl exec -n kube-system cilium-xxxx -- cilium monitor",
+      "cilium hubble ui",
+      "hubble observe --follow",
+      "kubectl logs -n kube-system hubble-xxx"
+    ],
+    "correct": 2,
+    "section": "Network Observability",
+    "explanation": "The command 'hubble observe --follow' shows a real-time stream of network flows between pods using Hubble."
+  },
+  {
+    "question": "Which Hubble component is responsible for aggregating flow data from all nodes in a cluster?",
+    "choices": [
+      "Hubble UI",
+      "Hubble Relay",
+      "Hubble Server",
+      "Hubble Collector"
+    ],
+    "correct": 1,
+    "section": "Network Observability",
+    "explanation": "Hubble Relay is the component responsible for aggregating flow data from all nodes in a cluster. It collects data from individual Hubble servers running on each node and provides a unified API for querying cluster-wide flow data."
+  },
+  {
+    "question": "Which of the following CLI commands would show HTTP flows with status code 404?",
+    "choices": [
+      "hubble observe --http-status 404",
+      "hubble observe --type http --http-status 404",
+      "hubble observe --protocol http --status-code 404",
+      "hubble observe --filter \"http.status == 404\""
+    ],
+    "correct": 1,
+    "section": "Network Observability",
+    "explanation": "The correct command to show HTTP flows with status code 404 is 'hubble observe --type http --http-status 404'. This filters for HTTP traffic and specifically for responses with the 404 status code."
+  },
+  {
+    "question": "What type of information is NOT available in Hubble flow logs?",
+    "choices": [
+      "Pod labels and namespace information",
+      "HTTP request methods and paths",
+      "TCP connection state and flags",
+      "Container resource utilization (CPU/memory)"
+    ],
+    "correct": 3,
+    "section": "Network Observability",
+    "explanation": "Hubble flow logs do not include container resource utilization (CPU/memory) information. They focus on network-related data such as pod identities, connection details, and protocol-specific information."
+  },
+  {
+    "question": "Which Hubble CLI command would filter flows to show only traffic that was dropped due to network policies?",
+    "choices": [
+      "hubble observe --verdict DENIED",
+      "hubble observe --verdict DROPPED --type policy",
+      "hubble observe --policy-dropped",
+      "hubble observe --verdict DROPPED"
+    ],
+    "correct": 3,
+    "section": "Network Observability",
+    "explanation": "The command 'hubble observe --verdict DROPPED' shows traffic that was dropped for any reason, including due to network policies. While it may include non-policy drops, it's the closest provided option."
+  },
+  {
+    "question": "What command would you use to install Cilium with the CLI?",
+    "choices": [
+      "kubectl apply -f cilium.yaml",
+      "kubectl create -f https://get.cilium.io/install",
+      "cilium install",
+      "helm install cilium cilium/cilium"
+    ],
+    "correct": 2,
+    "section": "Installation and Configuration",
+    "explanation": "The command 'cilium install' is used to install Cilium with the CLI. This command automatically detects the Kubernetes environment and applies the appropriate Cilium components."
+  },
+  {
+    "question": "How would you check if all Cilium components are running correctly?",
+    "choices": [
+      "kubectl get pods -n kube-system | grep cilium",
+      "cilium status",
+      "helm status cilium -n kube-system",
+      "kubectl describe daemonset cilium -n kube-system"
+    ],
+    "correct": 1,
+    "section": "Installation and Configuration",
+    "explanation": "The 'cilium status' command provides a comprehensive overview of all Cilium components, showing whether they are running correctly and reporting their health status."
+  },
+  {
+    "question": "Which Cilium CLI command would run connectivity tests to verify the cluster's networking?",
+    "choices": [
+      "cilium connectivity test",
+      "cilium test connectivity",
+      "cilium verify networking",
+      "cilium network test"
+    ],
+    "correct": 0,
+    "section": "Installation and Configuration",
+    "explanation": "The 'cilium connectivity test' command runs a series of network connectivity tests to verify that the cluster's networking is functioning correctly with Cilium."
+  },
+  {
+    "question": "Which setting would you use in Cilium's configuration to replace kube-proxy functionality completely?",
+    "choices": [
+      "--set kubeProxyReplacement=true",
+      "--set enableKubeProxyReplacement=strict",
+      "--set kubeProxy.enabled=false",
+      "--set kubeProxyReplacement=strict"
+    ],
+    "correct": 3,
+    "section": "Installation and Configuration",
+    "explanation": "The setting '--set kubeProxyReplacement=strict' configures Cilium to completely replace kube-proxy functionality, using eBPF for service load balancing and other functions."
+  },
+  {
+    "question": "Which command shows the current Cilium configuration values?",
+    "choices": [
+      "cilium config show",
+      "cilium config",
+      "cilium settings",
+      "cilium get config"
+    ],
+    "correct": 1,
+    "section": "Installation and Configuration",
+    "explanation": "The 'cilium config' command shows the current Cilium configuration values across all agents."
+  },
+  {
+    "question": "Which CLI command would you use to upgrade Cilium to a specific version?",
+    "choices": [
+      "cilium upgrade --version 1.13.0",
+      "helm upgrade cilium cilium/cilium --version 1.13.0",
+      "kubectl patch cilium -n kube-system --type merge -p '{\"version\":\"1.13.0\"}'",
+      "cilium update 1.13.0"
+    ],
+    "correct": 0,
+    "section": "Installation and Configuration",
+    "explanation": "The 'cilium upgrade --version 1.13.0' command is used to upgrade Cilium to a specific version using the Cilium CLI. This performs a rolling upgrade of all Cilium components."
+  },
+  {
+    "question": "How can you modify a Cilium agent parameter at runtime?",
+    "choices": [
+      "cilium config set debug=true",
+      "kubectl patch daemonset cilium -n kube-system -p '{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"cilium-agent\",\"args\":[\"--debug=true\"]}]}}}}'",
+      "cilium set-config debug=true",
+      "kubectl exec -n kube-system cilium-xxxx -- cilium set debug=true"
+    ],
+    "correct": 0,
+    "section": "Installation and Configuration",
+    "explanation": "The 'cilium config set debug=true' command modifies a Cilium agent parameter at runtime without requiring a restart. This changes the configuration across all Cilium agents."
+  },
+  {
+    "question": "Which Cilium installation method provides the most flexibility for custom configurations?",
+    "choices": ["Cilium CLI", "Helm", "Operator", "Kubernetes manifest"],
+    "correct": 1,
+    "section": "Installation and Configuration",
+    "explanation": "Helm provides the most flexibility for custom configurations when installing Cilium, allowing detailed customization of all parameters through values files and command-line options."
+  },
+  {
+    "question": "What is a requirement for establishing Cilium Cluster Mesh between two clusters?",
+    "choices": [
+      "Both clusters must use the same Kubernetes version",
+      "Each cluster must have a unique name and ID",
+      "Both clusters must use the same pod CIDR range",
+      "The clusters must be in the same cloud provider region"
+    ],
+    "correct": 1,
+    "section": "Cluster Mesh",
+    "explanation": "For Cilium Cluster Mesh, each cluster must have a unique name and ID to avoid conflicts when sharing service and endpoint information between clusters."
+  },
+  {
+    "question": "Which command enables Cluster Mesh on a cluster?",
+    "choices": [
+      "kubectl apply -f clustermesh.yaml",
+      "cilium cluster mesh enable",
+      "cilium clustermesh enable",
+      "kubectl patch configmap -n kube-system cilium-config -p '{\"data\":{\"cluster-mesh-enabled\":\"true\"}}'"
+    ],
+    "correct": 2,
+    "section": "Cluster Mesh",
+    "explanation": "The 'cilium clustermesh enable' command is used to enable Cluster Mesh on a cluster. This sets up the necessary components for inter-cluster communication."
+  },
+  {
+    "question": "How would you connect two clusters in a Cilium Cluster Mesh?",
+    "choices": [
+      "cilium clustermesh connect --context=cluster1 --destination-context=cluster2",
+      "cilium mesh connect cluster1 cluster2",
+      "kubectl apply -f clustermesh-connection.yaml",
+      "cilium connect-mesh --source=cluster1 --target=cluster2"
+    ],
+    "correct": 0,
+    "section": "Cluster Mesh",
+    "explanation": "The correct command to connect two clusters in a Cilium Cluster Mesh is 'cilium clustermesh connect --context=cluster1 --destination-context=cluster2'. This exchanges the necessary connection information between clusters."
+  },
+  {
+    "question": "Which annotation makes a Kubernetes Service globally available across a Cluster Mesh?",
+    "choices": [
+      "cilium.io/global: \"true\"",
+      "clustermesh.cilium.io/global-service: \"true\"",
+      "io.cilium/global-service: \"true\"",
+      "io.cilium/shared-service: \"true\""
+    ],
+    "correct": 2,
+    "section": "Cluster Mesh",
+    "explanation": "The annotation 'io.cilium/global-service: \"true\"' makes a Kubernetes Service globally available across a Cluster Mesh, allowing it to be accessed from any cluster in the mesh."
+  },
+  {
+    "question": "When matching pods across clusters in a CiliumNetworkPolicy, which label is used to identify the cluster?",
+    "choices": [
+      "io.cilium.k8s.policy.cluster",
+      "cilium.io/cluster",
+      "kubernetes.io/cluster",
+      "io.kubernetes.cluster"
+    ],
+    "correct": 0,
+    "section": "Cluster Mesh",
+    "explanation": "When matching pods across clusters in a CiliumNetworkPolicy, the label 'io.cilium.k8s.policy.cluster' is used to identify the cluster where the pods are running."
+  },
+  {
+    "question": "What command would you use to check if Cluster Mesh is properly connected between clusters?",
+    "choices": [
+      "cilium mesh status",
+      "cilium cluster status",
+      "cilium status --clustermesh",
+      "cilium clustermesh status"
+    ],
+    "correct": 3,
+    "section": "Cluster Mesh",
+    "explanation": "The 'cilium clustermesh status' command is used to check if Cluster Mesh is properly connected between clusters, showing connectivity status and other information."
+  },
+  {
+    "question": "Which eBPF hook point provides the earliest possible packet interception in the network stack?",
+    "choices": [
+      "TC (Traffic Control)",
+      "XDP (eXpress Data Path)",
+      "Socket",
+      "cgroup"
+    ],
+    "correct": 1,
+    "section": "eBPF",
+    "explanation": "XDP (eXpress Data Path) provides the earliest possible packet interception in the network stack, allowing packets to be processed before they even enter the kernel's networking stack."
+  },
+  {
+    "question": "Which advantage does Cilium's eBPF implementation provide over traditional iptables-based solutions?",
+    "choices": [
+      "Wider compatibility with older Linux kernels",
+      "Simpler configuration using familiar syntax",
+      "Consistent performance regardless of the number of network policies",
+      "Better integration with cloud provider networking"
+    ],
+    "correct": 2,
+    "section": "eBPF",
+    "explanation": "Cilium's eBPF implementation provides consistent performance regardless of the number of network policies, unlike iptables-based solutions where performance degrades as the number of rules increases."
+  },
+  {
+    "question": "Which feature is NOT enabled by Cilium's use of eBPF?",
+    "choices": [
+      "Socket-based load balancing",
+      "Application protocol visibility",
+      "Container image vulnerability scanning",
+      "Transparent encryption"
+    ],
+    "correct": 2,
+    "section": "eBPF",
+    "explanation": "Cilium's use of eBPF does not enable container image vulnerability scanning. While eBPF enables network visibility, policy enforcement, and encryption, image scanning is a separate security function not directly related to eBPF networking."
+  },
+  {
+    "question": "How does Cilium use eBPF maps in its implementation?",
+    "choices": [
+      "Only for storing network policy rules",
+      "Only for tracking active connections",
+      "For efficiently storing and retrieving data needed by eBPF programs",
+      "Only for maintaining identity information"
+    ],
+    "correct": 2,
+    "section": "eBPF",
+    "explanation": "Cilium uses eBPF maps for efficiently storing and retrieving various types of data needed by eBPF programs, including policy information, connection state, routing information, and identity mappings. Maps are a fundamental data structure in eBPF that enable stateful programs."
+  },
+  {
+    "question": "Which Cilium resource is used to configure BGP peering?",
+    "choices": [
+      "CiliumBGPConfig",
+      "CiliumBGPPeeringPolicy",
+      "CiliumBGPRouter",
+      "CiliumBGPAdvertisement"
+    ],
+    "correct": 1,
+    "section": "BGP and External Networking",
+    "explanation": "CiliumBGPPeeringPolicy is the Cilium resource used to configure BGP peering. It defines BGP neighbors, ASNs, and which resources should be advertised via BGP."
+  },
+  {
+    "question": "What does Cilium's BGP implementation enable?",
+    "choices": [
+      "Replacing internal Kubernetes CNI functionality",
+      "Exposing Kubernetes services to external networks without cloud load balancers",
+      "Direct connection between pods across multiple clusters",
+      "Automatic service mesh capability"
+    ],
+    "correct": 1,
+    "section": "BGP and External Networking",
+    "explanation": "Cilium's BGP implementation enables exposing Kubernetes services to external networks without cloud load balancers by advertising service IPs via BGP to external routers."
+  },
+  {
+    "question": "Which command would you use to check the status of BGP peers in Cilium?",
+    "choices": [
+      "cilium bgp peers",
+      "cilium status bgp",
+      "kubectl get ciliumbgppeers",
+      "kubectl describe bgp"
+    ],
+    "correct": 0,
+    "section": "BGP and External Networking",
+    "explanation": "The 'cilium bgp peers' command is used to check the status of BGP peers in Cilium, showing information about peering sessions and their state."
+  },
+  {
+    "question": "In a Cilium BGP configuration, what does the \"exportPodCIDR\" setting control?",
+    "choices": [
+      "Whether pod IPs are directly accessible from outside the cluster",
+      "Whether the pod CIDR block is advertised via BGP to peers",
+      "Whether pods can initiate connections to external networks",
+      "Whether the pod CIDR information is exposed in API endpoints"
+    ],
+    "correct": 1,
+    "section": "BGP and External Networking",
+    "explanation": "In a Cilium BGP configuration, the 'exportPodCIDR' setting controls whether the pod CIDR block is advertised via BGP to peers. When set to true, the node's pod CIDR will be included in BGP advertisements."
+  }
+]

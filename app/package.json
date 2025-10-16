@@ -1,0 +1,12 @@
+{
+  "name": "cilium-mock-exam",
+  "version": "1.0.0",
+  "description": "Certified Cilium Associate mock exam",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
