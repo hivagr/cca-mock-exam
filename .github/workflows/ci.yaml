@@ -10,6 +10,9 @@ on:
 
 jobs:
   format-and-lint:
+    permissions:
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
