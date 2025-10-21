@@ -273,7 +273,7 @@
     ],
     "correct": 1,
     "section": "Network Observability",
-    "explanation": "The correct command to show HTTP flows with status code 404 is 'hubble observe --type http --http-status 404'. This filters for HTTP traffic and specifically for responses with the 404 status code."
+    "explanation": "The correct command to show HTTP flows with status code 404 is 'hubble observe --protocol http --http-status 404'. This filters for HTTP traffic and specifically for responses with the 404 status code."
   },
   {
     "question": "What type of information is NOT available in Hubble flow logs?",
@@ -357,7 +357,7 @@
     ],
     "correct": 1,
     "section": "Installation and Configuration",
-    "explanation": "The 'cilium config' command shows the current Cilium configuration values across all agents."
+    "explanation": "The 'cilium config view' command shows the current Cilium configuration values across all agents."
   },
   {
     "question": "Which CLI command would you use to upgrade Cilium to a specific version?",
