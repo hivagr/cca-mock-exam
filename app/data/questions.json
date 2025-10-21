@@ -267,7 +267,7 @@
     "question": "Which of the following CLI commands would show HTTP flows with status code 404?",
     "choices": [
       "hubble observe --http-status 404",
-      "hubble observe --type http --http-status 404",
+      "hubble observe --protocol http --http-status 404",
       "hubble observe --protocol http --status-code 404",
       "hubble observe --filter \"http.status == 404\""
     ],
@@ -351,7 +351,7 @@
     "question": "Which command shows the current Cilium configuration values?",
     "choices": [
       "cilium config show",
-      "cilium config",
+      "cilium config view",
       "cilium settings",
       "cilium get config"
     ],
